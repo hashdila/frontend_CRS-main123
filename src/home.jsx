@@ -10,7 +10,7 @@ function home() {
   return (
     <div>
         
-        <Insert/>
+        <Login/>
   
   </div>
   )

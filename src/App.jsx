@@ -11,6 +11,8 @@ import AdminLogin from './admin/adminlogin';
 import Dashboard from './admin/dashboard';
 import Userdashboard from './user/userdashboard';
 import Insert from './forms/insert';
+import Crview from './user/crview';
+
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/userdashboard" element={<Userdashboard/>}/>
             <Route path="/Insert" element={<Insert/>}/>
+            <Route path="/Crview" element={<Crview/>}/>
             
           </Routes>
         </Router>
