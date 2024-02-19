@@ -12,6 +12,7 @@ import Dashboard from './admin/dashboard';
 import Userdashboard from './user/userdashboard';
 import Insert from './forms/insert';
 import Crview from './user/crview';
+import Navbar from './component/navbar';
 
 
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Home />} />;
             <Route path="/Register" element={<Register/>}/>
             <Route path="/Login" element={<Login/>}/>
+            <Route path='/Navbar' element={<Navbar/>}/>
             <Route path="/UserData" element={<UserData/>}/>
             <Route path="/AdminLogin" element={<AdminLogin/>}/>
             <Route path="/dashboard" element={<Dashboard />} />

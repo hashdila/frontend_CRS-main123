@@ -37,7 +37,7 @@ function UserData() {
           <tbody>
             {users.map(user => (
               <tr key={user.id} className="border-b">
-                <td className="px-4 py-2">{user.iserId}</td>
+                <td className="px-4 py-2">{user.userId}</td>
                 <td className="px-4 py-2">{user.firstname}</td>
                 <td className="px-4 py-2">{user.lastname}</td>
                 <td className="px-4 py-2">{user.username}</td>

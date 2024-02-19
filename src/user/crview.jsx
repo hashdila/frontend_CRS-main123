@@ -20,6 +20,8 @@ function Crview() {
     fetchData(); 
   }, []); 
 
+ 
+
   return (
     <div className="container mx-auto py-6">
       <h2 className="text-2xl font-bold mb-4">CR Table</h2>
@@ -52,6 +54,8 @@ function Crview() {
       </div>
     </div>
   );
-}
+
+
+            };
 
 export default Crview;
