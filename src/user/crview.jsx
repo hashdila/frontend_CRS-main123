@@ -21,7 +21,8 @@ function Crview() {
   }, []); 
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto py-6 flex justify-center items-center">
+      <div>
       <h2 className="text-2xl font-bold mb-4">CR Table</h2>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse">
@@ -49,6 +50,7 @@ function Crview() {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

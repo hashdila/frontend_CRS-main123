@@ -1,8 +1,8 @@
 import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from './home';
 import Register from './forms/register';
 import Login from './forms/login';
@@ -12,7 +12,8 @@ import Dashboard from './admin/dashboard';
 import Userdashboard from './user/userdashboard';
 import Insert from './forms/insert';
 import Crview from './user/crview';
-
+import SideBar from './user/sidebar';
+import Profile from './user/profile';
 
 
 function App() {
@@ -26,20 +27,22 @@ function App() {
        
 
 
-    <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />;
-            <Route path="/Register" element={<Register/>}/>
-            <Route path="/Login" element={<Login/>}/>
-            <Route path="/UserData" element={<UserData/>}/>
-            <Route path="/AdminLogin" element={<AdminLogin/>}/>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/userdashboard" element={<Userdashboard/>}/>
-            <Route path="/Insert" element={<Insert/>}/>
-            <Route path="/Crview" element={<Crview/>}/>
-            
-          </Routes>
-        </Router>
+      <Router>
+      <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />;
+          <Route path="/Register" element={<Register />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/UserData" element={<UserData />} />
+          <Route path="/AdminLogin" element={<AdminLogin />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/userdashboard" element={<Userdashboard />} />
+          <Route path="/Insert" element={<Insert />} />
+          <Route path="/Crview" element={<Crview />} />
+          <Route path='/Sidebar' element={<SideBar />}/>
+          <Route path='/Profile' element={<Profile />}/>
+        </Routes>
+      </Router>
       </div>
         
   )

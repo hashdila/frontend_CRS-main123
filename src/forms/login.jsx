@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-
-import axios from 'axios';
+import {ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from '../api';
-
 
 function Login() {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
-
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,28 +20,46 @@ function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${api.defaults.baseURL}/users/login/`, formData);
-      console.log('Login successful:', response.data);
-       // Save the JWT token to local storage
-       localStorage.setItem('token', response.data.token);
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-       // Optionally, handle successful login here (e.g., redirect user)
-       navigate('/userdashboard');
-      
-      // Optionally, handle successful login here (e.g., redirect user)
-    } catch (error) {
-      console.error('Error logging in:', error);
-      // Optionally, handle login failure (e.g., display error message)
+    const { username, password } = formData;
+
+    
+    if (!username || !password) {
+      setError('Please fill in all the fields.');
+      return;
     }
-  };
+
+    try {
+      const response = await api.post('/users/login', { username, password });
+
+      if (response && response.data) {
+        const {data} = response;
+        if (data.accessToken){
+          localStorage.setItem('token', data.accessToken);
+          toast.success('You have  successfully logged in!');
+          navigate('/userdashboard');
+        } else {
+          setError (data.message || 'login failed. Please try again');
+          }
+        } else {
+          setError ('something went wrong. Please try again');
+        }
+      } catch (error){
+        console.error('Error:', error);
+        setError ('Login error');
+      }
+
+      
+       
+  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6">Login</h2>
+        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>

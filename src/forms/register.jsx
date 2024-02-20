@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import api from '../api'; // Import your API configuration here
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import api from '../api'; 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import {ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Register() {
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
-    username: '',
+    username: '', 
     password: '',
+    cpassword:'',
     userType: ''
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,21 +29,37 @@ function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const { password , cpassword } = formData;
+    if (password !== cpassword) {
+      setError('Two different passwords. Please make sure both password are same');
+      return;
+    }
     try {
       const response = await api.post('/users/register/', formData);
       console.log('Data inserted successfully:', response.data);
-      // Optionally, reset form fields here
+      toast.success('You have successfully registered!');
+      navigate('/login');
+     
     } catch (error) {
       console.error('Error inserting data:', error);
+      setError('The username is already exists. Please enter a new one');
+
     }
   };
+
+ 
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6">Register</h2>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">First Name:</label>
@@ -49,8 +75,21 @@ function Register() {
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
-            <input type="password" name="password" id="password" value={formData.password} onChange={handleChange} className="mt-1 p-2.5 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
+            <div className="relative">
+              <input type={showPassword ? 'text' : 'password'} name="password" id="password" value={formData.password} onChange={handleChange} className="mt-1 p-2.5 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
+              <button type="button" className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-700" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
+          <div className="mb-4">
+            <label htmlFor="cpassword" className="block text-sm font-medium text-gray-700">Confirm Password:</label>
+            <div className="relative">
+              <input type={showPassword ? 'text' : 'password'} name="cpassword" id="cpassword" value={formData.cpassword} onChange={handleChange} className="mt-1 p-2.5 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" required />
+              <button type="button" className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-700" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+              </button>
+            </div>          </div>
           <div className="mb-4">
             <label htmlFor="userType" className="block text-sm font-medium text-gray-700">Usertype:</label>
             <select id="userType" name="userType" value={formData.userType} onChange={handleChange} className="mt-1 p-2.5 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
@@ -60,7 +99,6 @@ function Register() {
           </div>
           <button type="submit" className="w-full bg-blue-500 text-white py-2.5 rounded-md hover:bg-blue-600 transition duration-300">Submit</button>
         </form>
-        {/* Button to navigate to login page */}
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-700">Already have an account?{' '}
             <Link to="/login" className="text-blue-500 hover:underline">Login here</Link>
