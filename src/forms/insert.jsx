@@ -10,7 +10,6 @@ const insert = () => {
     department: '',
     topic: '',
     description: '',
-    department: '',
     typeimage: 'male', // Default value for gender
   });
 

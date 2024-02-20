@@ -10,7 +10,7 @@ function home() {
   return (
     <div>
         
-        <AdminLogin/>
+        <Login/>
   
   </div>
   )

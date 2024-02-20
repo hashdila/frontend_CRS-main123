@@ -8,7 +8,8 @@ function Register() {
     lastname: '',
     username: '',
     password: '',
-    userType: ''
+    userType: '',
+    status:'pending'
   });
 
   const handleChange = (e) => {
@@ -19,10 +20,16 @@ function Register() {
     });
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/users/register/', formData);
+      const updatedFormData = {
+        ...formData,
+        status: 'pending'
+      };
+      const response = await api.post('/users/register/', updatedFormData);
       console.log('Data inserted successfully:', response.data);
       // Optionally, reset form fields here
     } catch (error) {
