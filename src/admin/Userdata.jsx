@@ -30,9 +30,19 @@ function UserData() {
     }
   };
 
-  const approveUser = async () => {
+  const changeStatus = async () => {
+    if (newStatus === 'approveUser') {
+      await approveUser();
+    } else if (newStatus === 'rejectUser') {
+      await rejectUser();
+    } else {
+      console.error(`Invalid status option: ${newStatus}`);
+    }
+  };
+
+const approveUser = async () => {
     try {
-      await axios.post(`/users/approve/${selectedUser.userId}`);
+      await axios.post(`${api.defaults.baseURL}/users/approve/${selectedUser.userId}`);
       const updatedUsers = users.map((user) =>
         user.userId === selectedUser.userId ? { ...user, status: 'approved' } : user
       );
@@ -43,9 +53,9 @@ function UserData() {
     }
   };
 
-  const rejectUser = async () => {
+const rejectUser = async () => {
     try {
-      await axios.post(`/users/reject/${selectedUser.userId}`);
+      await axios.post(`${api.defaults.baseURL}/users/reject/${selectedUser.userId}`);
       const updatedUsers = users.map((user) =>
         user.userId === selectedUser.userId ? { ...user, status: 'rejected' } : user
       );
@@ -56,18 +66,6 @@ function UserData() {
     }
   };
 
-  const changeStatus = async () => {
-    try {
-      await axios.post(`/users/status/${selectedUser.userId}`, { status: newStatus });
-      const updatedUsers = users.map((user) =>
-        user.userId === selectedUser.userId ? { ...user, status: newStatus } : user
-      );
-      setUsers(updatedUsers);
-      setShowModal(false);
-    } catch (error) {
-      console.error(`Error changing status for user with ID ${selectedUser.userId}:`, error);
-    }
-  };
 
 
   const toggleModal = () => {
@@ -92,7 +90,7 @@ function UserData() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className="border-b">
+              <tr key={user.userId} className="border-b">
                 <td className="px-4 py-2">{user.userId}</td>
                 <td className="px-4 py-2">{user.firstname}</td>
                 <td className="px-4 py-2">{user.lastname}</td>
@@ -122,8 +120,9 @@ function UserData() {
                 value={newStatus}
                 onChange={(e) => setNewStatus(e.target.value)}
               >
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
+                <option value="pending">Pending</option>
+                <option value="approveUser">Approved</option>
+                <option value="rejectUser">Rejected</option>
               </select>
             </div>
             <button onClick={changeStatus}>Save</button>
