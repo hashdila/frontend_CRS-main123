@@ -86,6 +86,7 @@ const rejectUser = async () => {
               <th className="px-4 py-2">User Type</th>
               <th className="px-4 py-2" onClick={() => setShowModal(true)}>Status</th>
               <th className="px-4 py-2">Action</th>
+              <th className="px-4 py-2">Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -98,12 +99,13 @@ const rejectUser = async () => {
                 <td className="px-4 py-2">{user.userType}</td>
                 <td className="px-4 py-2">{user.status}</td>
                 <td>
-                  {user.status === 'pending' && (
+                  { (
                     <div>
                       <button onClick={() => fetchUserById(user)}>Change Status</button>
                     </div>
                   )}
                 </td>
+                
               </tr>
             ))}
           </tbody>
