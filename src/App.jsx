@@ -14,7 +14,7 @@ import Insert from './forms/insert';
 import Crview from './user/crview';
 import Navbar from './component/navbar';
 import UserStatusManager from './admin/userstatesmanage';
-import Modal from './admin/model';
+import Viewuser from './admin/Viewuser';
 
 
 
@@ -42,7 +42,7 @@ function App() {
             <Route path="/Insert" element={<Insert/>}/>
             <Route path="/Crview" element={<Crview/>}/>
             <Route path="/UserStatusManager" element={<UserStatusManager/>}/>
-            <Route path="/Model" element={<Modal/>}/>
+            <Route path="/Viewuser/:userId" element={<Viewuser/>}/>
             
           </Routes>
         </Router>

@@ -40,7 +40,7 @@ function UserData() {
     }
   };
 
-const approveUser = async () => {
+  const approveUser = async () => {
     try {
       await axios.post(`${api.defaults.baseURL}/users/approve/${selectedUser.userId}`);
       const updatedUsers = users.map((user) =>
@@ -53,7 +53,7 @@ const approveUser = async () => {
     }
   };
 
-const rejectUser = async () => {
+  const rejectUser = async () => {
     try {
       await axios.post(`${api.defaults.baseURL}/users/reject/${selectedUser.userId}`);
       const updatedUsers = users.map((user) =>
@@ -66,10 +66,16 @@ const rejectUser = async () => {
     }
   };
 
-
-
   const toggleModal = () => {
     setShowModal(!showModal);
+  };
+
+  const handleEdit = (user) => {
+    console.log('Edit user:', user);
+  };
+
+  const handleView = (user) => {
+    setSelectedUser(user);
   };
 
   return (
@@ -84,8 +90,9 @@ const rejectUser = async () => {
               <th className="px-4 py-2">Last Name</th>
               <th className="px-4 py-2">Username</th>
               <th className="px-4 py-2">User Type</th>
-              <th className="px-4 py-2" onClick={() => setShowModal(true)}>Status</th>
+              <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Action</th>
+              <th className="px-4 py-2">View</th>
               <th className="px-4 py-2">Edit</th>
             </tr>
           </thead>
@@ -99,13 +106,16 @@ const rejectUser = async () => {
                 <td className="px-4 py-2">{user.userType}</td>
                 <td className="px-4 py-2">{user.status}</td>
                 <td>
-                  { (
-                    <div>
-                      <button onClick={() => fetchUserById(user)}>Change Status</button>
-                    </div>
-                  )}
+                  <div>
+                    <button onClick={() => fetchUserById(user)}>Change Status</button>
+                  </div>
                 </td>
-                
+                <td>
+                  <button onClick={() => handleView(user)}>View</button>
+                </td>
+                <td>
+                  <button onClick={() => handleEdit(user)}>Edit</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -129,6 +139,16 @@ const rejectUser = async () => {
             </div>
             <button onClick={changeStatus}>Save</button>
           </div>
+        </div>
+      )}
+      {selectedUser && (
+        <div className="selected-user">
+          <p>ID: {selectedUser.userId}</p>
+          <p>First Name: {selectedUser.firstname}</p>
+          <p>Last Name: {selectedUser.lastname}</p>
+          <p>Username: {selectedUser.username}</p>
+          <p>User Type: {selectedUser.userType}</p>
+          <p>Status: {selectedUser.status}</p>
         </div>
       )}
     </div>
