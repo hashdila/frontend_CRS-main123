@@ -19,14 +19,38 @@ function Crview() {
     fetchData();
   }, [fetchData]);
 
-  const updatePriority = useCallback(async (crId, priority) => {
+  const updatePriority = useCallback(async (crId, newPriority) => {
     try {
-      await axios.put(`${api.defaults.baseURL}/crs/${crId}`, { priority });
-      fetchData(); // Fetch updated data from the server
+        const crToUpdate = crs.find(cr => cr.crId === crId);
+        if (!crToUpdate) {
+            console.error(`CR with ID ${crId} not found.`);
+            return;
+        }
+        
+        const oldPriority = crToUpdate.priority;
+        const originalIndex = crToUpdate.originalIndex;
+        
+        if (newPriority < oldPriority) {
+            for (let i = originalIndex; i < crs.length; i++) {
+                if (crs[i].priority <= oldPriority && crs[i].priority > newPriority) {
+                    await axios.put(`${api.defaults.baseURL}/crs/${crs[i].crId}`, { priority: crs[i].priority + 1 });
+                }
+            }
+        } else if (newPriority > oldPriority) {
+            for (let i = originalIndex; i >= 0; i--) {
+                if (crs[i].priority >= oldPriority && crs[i].priority < newPriority) {
+                    await axios.put(`${api.defaults.baseURL}/crs/${crs[i].crId}`, { priority: crs[i].priority - 1 });
+                }
+            }
+        }
+        
+        await axios.put(`${api.defaults.baseURL}/crs/${crId}`, { priority: newPriority });
+        fetchData(); // Fetch updated data from the server
     } catch (error) {
-      console.error('Error updating priority:', error);
+        console.error('Error updating priority:', error);
     }
-  }, []);
+}, [crs, fetchData]);
+
 
   return (
     <div className="container mx-auto py-6">
@@ -99,3 +123,4 @@ const Popup = ({ cr, updatePriority, onClose }) => {
 };
 
 export default Crview;
+
