@@ -7,7 +7,7 @@ import Navbar from '../component/navbar'
 function userdashboard() {
   return (
     <div>
-       <Navbar/> 
+
       <Insert/>  
 
     </div>

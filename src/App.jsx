@@ -14,7 +14,7 @@ import Insert from './forms/insert';
 import Crview from './user/crview';
 import Navbar from './component/navbar';
 import UserStatusManager from './admin/userstatesmanage';
-import Viewuser from './admin/Viewuser';
+
 
 
 
@@ -26,9 +26,7 @@ function App() {
   return (
     
       <div>
-       
-
-
+        
     <Router>
           <Routes>
             <Route path="/" element={<Home />} />;
@@ -41,13 +39,10 @@ function App() {
             <Route path="/userdashboard" element={<Userdashboard/>}/>
             <Route path="/Insert" element={<Insert/>}/>
             <Route path="/Crview" element={<Crview/>}/>
-            <Route path="/UserStatusManager" element={<UserStatusManager/>}/>
-            <Route path="/Viewuser/:userId" element={<Viewuser/>}/>
-            
+            <Route path="/UserStatusManager" element={<UserStatusManager/>}/> 
           </Routes>
         </Router>
-      </div>
-        
+      </div>     
   )
 }
 
