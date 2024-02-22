@@ -46,7 +46,7 @@ function Crview() {
             </tr>
           </thead>
           <tbody>
-            {crs.map(cr => (
+            {crs.sort((a, b) => a.priority - b.priority).map(cr => (
               <tr key={cr.crId} className="border-b">
                 <td className="px-4 py-2">{cr.crId}</td>
                 <td className="px-4 py-2">{cr.name}</td>
