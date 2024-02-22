@@ -21,26 +21,12 @@ function Crview() {
 
   const updatePriority = useCallback(async (crId, priority) => {
     try {
-      const updatedCrs = crs.map(cr => cr.crId === crId ? { ...cr, priority } : cr);
-      setCrs(updatedCrs);
-      await handlePriorityChange(crId, priority);
+      await axios.put(`${api.defaults.baseURL}/crs/${crId}`, { priority });
+      fetchData(); // Fetch updated data from the server
     } catch (error) {
       console.error('Error updating priority:', error);
     }
-  }, [crs]);
-
-  const handlePriorityChange = useCallback(async (crId, priority) => {
-    try {
-      console.log(`Current Priority: ${crs.find(cr => cr.crId === crId)?.priority}`);
-      console.log(`New Priority: ${priority}`);
-
-      await axios.put(`${api.defaults.baseURL}/crs/${crId}/priority`, { priority });
-
-      console.log(`Priority updated successfully for CR ${crId} to ${priority}`);
-    } catch (error) {
-      console.error('Error updating priority:', error);
-    }
-  }, [crs]);
+  }, []);
 
   return (
     <div className="container mx-auto py-6">
@@ -113,4 +99,3 @@ const Popup = ({ cr, updatePriority, onClose }) => {
 };
 
 export default Crview;
-
