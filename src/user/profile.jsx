@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import logo from '../assets/CBL-Logo.jpg';
+import logo from 'C:/Users/trainingitasst.cbl/Desktop/CR-Management/frontend/frontend_CRS-main123/src/assets/cbl-logo.png';
 import api from '../api';
 
 function Profile() {

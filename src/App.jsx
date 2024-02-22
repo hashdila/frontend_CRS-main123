@@ -14,6 +14,7 @@ import Insert from './forms/insert';
 import Crview from './user/crview';
 import SideBar from './user/sidebar';
 import Profile from './user/profile';
+import Navbar from './component/navbar';
 import { Dashb } from './user/dashb';
 
 function App() {
@@ -45,6 +46,7 @@ function AppRoutes() {
         <Route path="/Crview" element={<Crview />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/dashb" element={<Dashb />} />
+        <Route path='/Navbar' element={<Navbar/>}/>
       </Routes>
     </>
   );

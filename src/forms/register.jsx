@@ -95,6 +95,7 @@ function Register() {
             <select id="userType" name="userType" value={formData.userType} onChange={handleChange} className="mt-1 p-2.5 w-full border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
               <option value="Developer">Developer</option>
               <option value="Creator">Creator</option>
+              <option value="Administrator">Administrator</option>
             </select>
           </div>
           <button type="submit" className="w-full bg-blue-500 text-white py-2.5 rounded-md hover:bg-blue-600 transition duration-300">Submit</button>
