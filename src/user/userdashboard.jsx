@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
-import SideBar from './sidebar';
-import Crview from './crview';
-import { Outlet } from 'react-router-dom';
-import Insert from '../forms/insert';
-
+import React from 'react';
+import Logo from 'C:/Users/trainingitasst.cbl/Desktop/CR-Management/frontend/frontend_CRS-main123/src/assets/cbl-logo.png'; // Replace 'logo.png' with your actual logo file path
 
 const UserDashboard = () => {
-  const [selectedComponent, setSelectedComponent] = useState('crview');
-  
-  const handleComponentSelect = (componentName) => {
-    setSelectedComponent(componentName);
+  // Example user data
+  const user = {
+    name: 'John Doe',
   };
-
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case 'insert':
-        return <Insert />;
-      case 'crview':
-      default:
-        return <Crview />;
-    }
-  };
-
-  console.log('Selected Component:', selectedComponent); 
   
+
+  // Get current date and time
+  const currentDate = new Date().toLocaleDateString();
+  const currentTime = new Date().toLocaleTimeString();
+
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <aside className="fixed top-0 left-0 h-screen w-1/3 md:w-72 px-8 py-16">
-        {/* Pass down the handleComponentSelect function */}
-        <SideBar handleComponentSelect={handleComponentSelect} />
-      </aside>
-
-      <div className="p-4 sm:ml-64">
-        <div className="col p-0 m-0">
-          <div className="p-2 d-flex justify-content-center shadow">
-          <div className="flex-1 relative">
-            <div className="mt-16">{renderComponent()}</div>
-            </div>
-          </div>
-          <Outlet />
-        </div>
+    <div className="p-4 sm:ml-64">
+      <div className="col p-0 m-0">
+        <div className="p-2 d-flex justify-content-center shadow">
+      {/* User profile section */}
+      <div className="flex items-center justify-between mb-8">
+        {/* Profile picture */}
+        <img
+          src={Logo}
+          alt="CBL-Logo"
+          className="w-12 h-12 rounded-full"
+        />
+        {/* User name */}
+        <h1 className="text-2xl font-bold">{user.name}</h1>
+        <div className="mb-8">
+        {/* Current date */}
+        <p className="text-gray-500 text-sm mb-2">Date: {currentDate}</p>
+        {/* Current time */}
+        <p className="text-gray-500 text-sm">Time: {currentTime}</p>
       </div>
-   
-      {/* Main Content */}
+      </div>
+
+      {/* Date and time section */}
       
+
+      
+      
+      {/* Additional content can be added here */}
+    </div>
+    </div>
     </div>
   );
 };
+
 export default UserDashboard;

@@ -41,8 +41,8 @@ function SideBar({ handleComponentSelect }) {
           <ul className="space-y-2 font-medium">
             <li>
               <a
-                href="#"
-                onClick={() => handleClick('dashboard')}
+                href="Userdashboard"
+                onClick={() => handleClick('Userdashboard')}
                 className="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -60,8 +60,8 @@ function SideBar({ handleComponentSelect }) {
             </li>
             <li>
               <a
-                href="crview"
-                onClick={() => handleClick('crview')}
+                href="Crview"
+                onClick={() => handleClick('Crview')}
                 className="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -78,8 +78,8 @@ function SideBar({ handleComponentSelect }) {
             </li>
             <li>
               <a
-                href="insert"
-                onClick={() => handleClick('insert')}
+                href="Insert"
+                onClick={() => handleClick('Insert')}
                 className="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -102,7 +102,7 @@ function SideBar({ handleComponentSelect }) {
             </li>
             <li>
               <a
-                href="Userdata"
+                href="UserData"
                 onClick={() => handleClick('UserData')}
                 className="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
@@ -120,6 +120,32 @@ function SideBar({ handleComponentSelect }) {
                 <span className="ms-3 text-white">Users</span>
               </a>
             </li>
+            <li>
+              <a
+                href="Log"
+                onClick={() => handleClick('Log')}
+                className="flex items-center p-2 text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                {/* Replace the SVG icon with a book icon */}
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  />
+                </svg>
+
+                <span className="ms-3 text-white">Log</span>
+              </a>
+            </li>
+
             <li>
               <a
                 href="#"
@@ -149,7 +175,7 @@ function SideBar({ handleComponentSelect }) {
       <div className="p-4 sm:ml-64">
         <div className="col p-0 m-0">
           <div className="p-2 d-flex justify-content-center shadow">
-          <h4 className="text-2xl text-gray-400 dark:text-gray-500">CR Managment System</h4>
+            <h4 className="text-2xl text-gray-400 dark:text-gray-500">CR Managment System</h4>
           </div>
           <Outlet />
         </div>
