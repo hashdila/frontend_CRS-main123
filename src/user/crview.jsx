@@ -1,126 +1,117 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import api from '../api';
 
 function Crview() {
-  const [crs, setCrs] = useState([]);
-  const [selectedCr, setSelectedCr] = useState(null);
+    const [crs, setCrs] = useState([]);
+    const [selectedCr, setSelectedCr] = useState(null);
+    const [editPriority, setEditPriority] = useState(false);
+    const [newPriority, setNewPriority] = useState('');
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios.get(`${api.defaults.baseURL}/crs/add`);
-      setCrs(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const updatePriority = useCallback(async (crId, newPriority) => {
-    try {
-        const crToUpdate = crs.find(cr => cr.crId === crId);
-        if (!crToUpdate) {
-            console.error(`CR with ID ${crId} not found.`);
-            return;
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${api.defaults.baseURL}/crs/add`);
+            // Sort the response.data array based on the priority property
+            const sortedCrs = response.data.sort((a, b) => a.priority - b.priority);
+            setCrs(sortedCrs);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-        
-        const oldPriority = crToUpdate.priority;
-        const originalIndex = crToUpdate.originalIndex;
-        
-        if (newPriority < oldPriority) {
-            for (let i = originalIndex; i < crs.length; i++) {
-                if (crs[i].priority <= oldPriority && crs[i].priority > newPriority) {
-                    await axios.put(`${api.defaults.baseURL}/crs/${crs[i].crId}`, { priority: crs[i].priority + 1 });
-                }
-            }
-        } else if (newPriority > oldPriority) {
-            for (let i = originalIndex; i >= 0; i--) {
-                if (crs[i].priority >= oldPriority && crs[i].priority < newPriority) {
-                    await axios.put(`${api.defaults.baseURL}/crs/${crs[i].crId}`, { priority: crs[i].priority - 1 });
-                }
-            }
+    };
+    
+
+    const openEditPriority = (cr) => {
+        setSelectedCr(cr);
+        setEditPriority(true);
+        setNewPriority(cr.priority);
+    };
+
+    const closeEditPriority = () => {
+        setSelectedCr(null);
+        setEditPriority(false);
+    };
+
+    const handlePriorityChange = (event) => {
+        setNewPriority(parseInt(event.target.value));
+    };
+
+    const updatePriority = async () => {
+        try {
+            await axios.put(`${api.defaults.baseURL}/crs/${selectedCr.crId}/priority`, { priority: newPriority });
+            closeEditPriority();
+            fetchData();
+        } catch (error) {
+            console.error('Error updating priority:', error);
         }
-        
-        await axios.put(`${api.defaults.baseURL}/crs/${crId}`, { priority: newPriority });
-        fetchData(); // Fetch updated data from the server
-    } catch (error) {
-        console.error('Error updating priority:', error);
-    }
-}, [crs, fetchData]);
+    };
+    
+    
 
-
-  return (
-    <div className="container mx-auto py-6">
-      <h2 className="text-2xl font-bold mb-4">CR Table</h2>
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="px-4 py-2">CR ID</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Department</th>
-              <th className="px-4 py-2">Topic</th>
-              <th className="px-4 py-2">Description</th>
-              <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2">Priority</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {crs.sort((a, b) => a.priority - b.priority).map(cr => (
-              <tr key={cr.crId} className="border-b">
-                <td className="px-4 py-2">{cr.crId}</td>
-                <td className="px-4 py-2">{cr.name}</td>
-                <td className="px-4 py-2">{cr.department}</td>
-                <td className="px-4 py-2">{cr.topic}</td>
-                <td className="px-4 py-2">{cr.description}</td>
-                <td className="px-4 py-2">{cr.type}</td>
-                <td className="px-4 py-2">
-                  {cr.priority}
-                </td>
-                <td className="px-4 py-2">
-                  <button onClick={() => setSelectedCr(cr)}>Change Priority</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {selectedCr && (
-        <Popup
-          cr={selectedCr}
-          updatePriority={updatePriority}
-          onClose={() => setSelectedCr(null)}
-        />
-      )}
-    </div>
-  );
+    return (
+        <div className="container mx-auto py-6">
+            <h2 className="text-2xl font-bold mb-4">CR Table</h2>
+            <div className="overflow-x-auto">
+                <table className="table-auto w-full border-collapse">
+                    <thead>
+                        <tr className="bg-gray-200">
+                            <th className="px-4 py-2">CR ID</th>
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Department</th>
+                            <th className="px-4 py-2">Topic</th>
+                            <th className="px-4 py-2">Description</th>
+                            <th className="px-4 py-2">Type</th>
+                            <th className="px-4 py-2">Priority</th>
+                            <th className="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {crs.sort((a, b) => a.priority - b.priority).map(cr => (
+                            <tr key={cr.crId} className="border-b">
+                                <td className="px-4 py-2">{cr.crId}</td>
+                                <td className="px-4 py-2">{cr.name}</td>
+                                <td className="px-4 py-2">{cr.department}</td>
+                                <td className="px-4 py-2">{cr.topic}</td>
+                                <td className="px-4 py-2">{cr.description}</td>
+                                <td className="px-4 py-2">{cr.type}</td>
+                                <td className="px-4 py-2">
+                                    {editPriority && selectedCr && selectedCr.crId === cr.crId ? (
+                                        <input
+                                            type="number"
+                                            value={newPriority}
+                                            onChange={handlePriorityChange}
+                                            autoFocus
+                                        />
+                                    ) : (
+                                        cr.priority
+                                    )}
+                                </td>
+                                <td className="px-4 py-2">
+                                    <button onClick={() => openEditPriority(cr)}>Change priority</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            {editPriority && selectedCr && (
+                <div className="popup-view">
+                    <h2>Edit Priority</h2>
+                    <input
+                        type="number"
+                        value={newPriority}
+                        onChange={handlePriorityChange}
+                        autoFocus
+                    />
+                    <button onClick={updatePriority}>Save</button>
+                    <button onClick={closeEditPriority}>Cancel</button>
+                </div>
+            )}
+        </div>
+    );
 }
 
-const Popup = ({ cr, updatePriority, onClose }) => {
-  const [priority, setPriority] = useState(cr.priority.toString());
-
-  const handleSave = useCallback(async () => {
-    await updatePriority(cr.crId, parseInt(priority));
-    onClose();
-  }, [updatePriority, cr, priority, onClose]);
-
-  return (
-    <div className="popup">
-      <h2>Change Priority for CR {cr.crId}</h2>
-      <input
-        type="number"
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-      />
-      <button onClick={handleSave}>Save</button>
-      <button onClick={onClose}>Cancel</button>
-    </div>
-  );
-};
-
 export default Crview;
-

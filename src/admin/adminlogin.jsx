@@ -31,7 +31,7 @@ function AdminLogin() {
       console.log('Admin Login successful:', response.data);
       navigate('/dashboard');
       // Optionally, handle successful login here (e.g., redirect user)
-      
+
     } catch (error) {
       console.error('Error logging in as admin:', error);
       // Optionally, handle login failure (e.g., display error message)
@@ -55,7 +55,7 @@ function AdminLogin() {
             Login
           </button>
         </form>
-        
+
       </div>
     </div>
   );
