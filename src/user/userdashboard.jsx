@@ -1,32 +1,29 @@
 import React, { useState } from 'react';
-import Insert from '../forms/insert';
-import Crview from './crview';
 import SideBar from './sidebar';
-import Profile from './profile';
-import Navbar from '../component/navbar'; // Import the Navbar component
+import Crview from './crview';
+import { Outlet } from 'react-router-dom';
+import Insert from '../forms/insert';
 
-function UserDashboard() {
-  // State to keep track of the selected component
+
+const UserDashboard = () => {
   const [selectedComponent, setSelectedComponent] = useState('crview');
-
-  // Function to handle component selection
-  function handleComponentSelect(componentName) {
+  
+  const handleComponentSelect = (componentName) => {
     setSelectedComponent(componentName);
   };
 
-  // Render the selected component
   const renderComponent = () => {
     switch (selectedComponent) {
       case 'insert':
         return <Insert />;
       case 'crview':
-        return <Crview />;
-      // Add cases for other components as needed
       default:
         return <Crview />;
     }
   };
 
+  console.log('Selected Component:', selectedComponent); 
+  
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -34,15 +31,21 @@ function UserDashboard() {
         {/* Pass down the handleComponentSelect function */}
         <SideBar handleComponentSelect={handleComponentSelect} />
       </aside>
-      {/* Main Content */}
-      <div className="flex-1">
-        {/* Navbar */}
-        <Navbar />
-        {/* Render the selected component */}
-        {renderComponent()}
+
+      <div className="p-4 sm:ml-64">
+        <div className="col p-0 m-0">
+          <div className="p-2 d-flex justify-content-center shadow">
+          <div className="flex-1 relative">
+            <div className="mt-16">{renderComponent()}</div>
+            </div>
+          </div>
+          <Outlet />
+        </div>
       </div>
+   
+      {/* Main Content */}
+      
     </div>
   );
-}
-
+};
 export default UserDashboard;

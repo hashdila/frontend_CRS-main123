@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 function SideBar({ handleComponentSelect }) {
   const handleClick = (componentName) => {
@@ -145,6 +146,14 @@ function SideBar({ handleComponentSelect }) {
           </ul>
         </div>
       </aside>
+      <div className="p-4 sm:ml-64">
+        <div className="col p-0 m-0">
+          <div className="p-2 d-flex justify-content-center shadow">
+          <h4 className="text-2xl text-gray-400 dark:text-gray-500">CR Managment System</h4>
+          </div>
+          <Outlet />
+        </div>
+      </div>
     </>
   );
 }

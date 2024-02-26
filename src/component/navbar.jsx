@@ -13,7 +13,7 @@ const Navbar = () => {
   const { time, date } = getCurrentDateTime();
 
   return (
-    <nav className="bg-blue-500 flex justify-between items-center h-12 px-4">
+    <nav className="bg-blue-500 flex justify-between items-center h-12 px-4 w-full pl-24"> {/* Set width to full */}
       {/* Left side of navbar */}
       <div className="flex items-center">
         {/* Logo */}
@@ -38,4 +38,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

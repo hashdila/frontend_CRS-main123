@@ -79,7 +79,9 @@ function UserData() {
   };
 
   return (
-    <div className="container mx-auto py-6 pl-24"> {/* Add left padding */}
+    <div className="p-4 sm:ml-64">
+    <div className="col p-0 m-0">
+      <div className="p-2 d-flex justify-content-center shadow">
       <h2 className="text-2xl font-bold mb-4">User Table</h2>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse">
@@ -151,6 +153,8 @@ function UserData() {
           <p>Status: {selectedUser.status}</p>
         </div>
       )}
+    </div>
+    </div>
     </div>
   );
 }

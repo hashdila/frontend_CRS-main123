@@ -31,9 +31,10 @@ const Insert = () => {
   };
 
   return (
-    <div className="flex justify-end">
-      <div className="max-w-4xl w-full">
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="p-4 sm:ml-64">
+    <div className="col p-0 m-0">
+      <div className="p-2 d-flex justify-content-center shadow">
+        <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
             <input type="text" id="name" placeholder="John" onChange={handleChange} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
@@ -59,6 +60,7 @@ const Insert = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };
